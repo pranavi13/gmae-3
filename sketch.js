@@ -1,5 +1,6 @@
 var canavas, backgroundImage;
-
+var bullets=80;
+var gameState="fight"
 function preload(){
     shooter1=loadImage("shooter_1.png")
     shooter2=loadImage("shooter_2.png")
@@ -17,9 +18,14 @@ function setup(){
         bg.scale=1
         player.scale=0.6
         zombieGroup=new Group()
+        bulletGroup=new Group()
+
 }
 function draw(){
     background("black")
+    if(gameState==="fight"){
+
+    
     if(keyWentDown("space")){
         player.addImage(shooter3)    
     }
@@ -35,6 +41,13 @@ function draw(){
 
         player.y-=15
     }
+    if(keyWentDown("space")){
+        bullet=createSprite(displayWidth-800,player.y-50,10,10);
+        bullet.velocityX=+10
+        bulletGroup.add(bullet)
+        bullets=bullets-1
+    }
+
     if(zombieGroup.isTouching(player)){
         for(var i=0; i < zombieGroup.length; i++){
 if (zombieGroup [i].isTouching(player)){
@@ -42,7 +55,7 @@ if (zombieGroup [i].isTouching(player)){
 }
         }
     }
-    zombies()
+    zombies()}
 drawSprites()
 }
 
@@ -56,6 +69,7 @@ function zombies(){
         zombie.velocityX=-4
         zombie.lifetime=400
         zombie.debug=true
+        zombie.setCollider("rectangle",0,0,90,90)
     }
     
 }
